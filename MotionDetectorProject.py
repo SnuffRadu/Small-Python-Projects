@@ -15,16 +15,15 @@ def motiondetector():
         ret, frame = cap.read()
 
         status = 0
-
-        #se intampla chestii aici
-        grayscale = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        grayscale = cv2.GaussianBlur(grayscale, (21, 21), 0)
+   
+        grayscale = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #creeaza o un cadru alb negru
+        grayscale = cv2.GaussianBlur(grayscale, (21, 21), 0) #aplica blur peste captura alb negru
 
         if first_frame is None:
             first_frame = grayscale
             continue
 
-        delta_frame = cv2.absdiff(first_frame, grayscale)
+        delta_frame = cv2.absdiff(first_frame, grayscale) #compara primul cadru cu captura alb negru in timp real
         threshold_delta = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY)[1]
         threshold_delta = cv2.dilate(threshold_delta, None, iterations = 4)
 
@@ -40,14 +39,14 @@ def motiondetector():
                 status = 1
                 continue
 
-            (x, y, w, h) = cv2.boundingRect(contour)
+            (x, y, w, h) = cv2.boundingRect(contour) #deseneaza un dreptunghi peste obiectele care se misca
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
 
         if status == 1:
             time = datetime.datetime.now()
             print(time)
 
-        # Display the resulting frame
+        # Afiseaza urmatoarele cadre
         cv2.imshow('frame', grayscale)
         cv2.imshow('delta', delta_frame)
         cv2.imshow('thresh', threshold_delta)
@@ -57,7 +56,6 @@ def motiondetector():
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
 
