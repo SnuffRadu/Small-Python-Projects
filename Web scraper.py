@@ -29,7 +29,7 @@ def send_mail():
     gmail_password = ''                     #password
 
     sent_from = gmail_user
-    to = ['nuffydevtest@gmail.com']                                 #body of the email
+    to = ['']                                 #body of the email + the gmail account
     subject = 'Price dropped check email!'
     body = 'check the amazon link: https://www.amazon.de/dp/B07L5LZ9L2/ref=dp_cerb_2\n\n'
 
